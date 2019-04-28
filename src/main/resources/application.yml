@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: CloudMessagingServer
+  jackson:
+    serialization:
+      indent_output: true
+server:
+  port: 9090
