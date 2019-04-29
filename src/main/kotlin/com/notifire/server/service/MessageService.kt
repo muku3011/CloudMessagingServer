@@ -24,7 +24,7 @@ class MessageService(var userService: UserService, var serverService: ServerServ
         body.put("priority", "high")
 
         val notification = JSONObject()
-        notification.put("title", message.tile)
+        notification.put("title", message.title)
         notification.put("body", message.body)
 
         body.put("notification", notification)
