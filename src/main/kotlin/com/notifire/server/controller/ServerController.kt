@@ -20,4 +20,8 @@ class ServerController (var serverService: ServerService) {
         return serverService.addServer(server)
     }
 
+    @RequestMapping("/server/delete", method = [RequestMethod.POST])
+    fun deleteServer(@RequestBody servers: List<String>) {
+        return serverService.deleteServer(servers)
+    }
 }

@@ -20,4 +20,10 @@ class UserService {
     fun getUserToken(userName: String): String {
         return userMap.getValue(userName)
     }
+
+    fun deleteUser(users: List<String>) {
+        users.forEach {
+            userMap.remove(it)
+        }
+    }
 }

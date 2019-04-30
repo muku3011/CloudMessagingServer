@@ -20,4 +20,10 @@ class ServerService {
         return serverMap.getValue(serverUrl)
     }
 
+    fun deleteServer(servers: List<String>) {
+        servers.forEach {
+            serverMap.remove(it)
+        }
+    }
+
 }

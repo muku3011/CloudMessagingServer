@@ -20,4 +20,8 @@ class UserController (val userService: UserService) {
         return userService.addUser(user)
     }
 
+    @RequestMapping("/user/delete", method = [RequestMethod.POST])
+    fun deleteServer(@RequestBody users: List<String>) {
+        return userService.deleteUser(users)
+    }
 }
