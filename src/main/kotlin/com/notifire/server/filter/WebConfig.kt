@@ -9,7 +9,7 @@ class WebConfig : WebMvcConfigurer {
     override fun addCorsMappings(ctx: CorsRegistry) {
         ctx.addMapping("/***")
                 .allowedMethods("OPTIONS", "GET", "PUT", "POST", "DELETE")
-                .allowedOrigins("http://localhost:4200", "https://cloud-messaging-ui.herokuapp.com/")
+                .allowedOrigins("http://localhost:4200", "https://cloud-messaging-ui.herokuapp.com")
                 .allowedHeaders("*")
     }
 }
