@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.notifire.server</groupId>
-	<artifactId>cloud-messaging-server</artifactId>
+	<artifactId>CloudMessagingServer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Cloud Messaging Server</name>
 	<description>Cloud messaging server project with Spring Boot</description>
