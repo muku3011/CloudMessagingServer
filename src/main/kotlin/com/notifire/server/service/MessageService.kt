@@ -1,6 +1,9 @@
 package com.notifire.server.service
 
-import com.notifire.server.schema.Message
+import com.notifire.server.model.Message
+import com.notifire.server.model.User
+import com.notifire.server.secure.EncryptDecrypt
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.configurationprocessor.json.JSONObject
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpRequest
@@ -14,9 +17,16 @@ import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import java.util.concurrent.CompletableFuture
+import kotlin.collections.ArrayList
 
 @Service
-class MessageService(var userService: UserService, var serverService: ServerService) {
+class MessageService {
+
+    @Autowired
+    lateinit var userService: UserService
+
+    @Autowired
+    lateinit var serverService: ServerService
 
     fun sendMessage(message: Message): ResponseEntity<String> {
         val body = JSONObject()

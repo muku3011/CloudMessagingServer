@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class CloudMessagingServerApplication
+class Application
 
 fun main(args: Array<String>) {
-	runApplication<CloudMessagingServerApplication>(*args)
+	runApplication<Application>(*args)
 }

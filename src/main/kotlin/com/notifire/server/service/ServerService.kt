@@ -1,28 +1,34 @@
 package com.notifire.server.service
 
-import com.notifire.server.schema.Server
+import com.notifire.server.dao.ServerRepository
+import com.notifire.server.dao.UserRepository
+import com.notifire.server.model.Server
+import com.notifire.server.secure.EncryptDecrypt
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class ServerService {
 
-    val serverMap = mutableMapOf<String, String>()
+    @Autowired
+    lateinit var serverRepository: ServerRepository
 
-    fun getAllServers(): Set<String> {
-        return serverMap.keys
+    fun getAllServers(): MutableIterable<Server> {
+        return serverRepository.findAll()
     }
 
     fun addServer(server: Server) {
-        serverMap[server.serverUrl] = server.serverKey
+        serverRepository.save(server)
     }
 
-    fun getServerKey(serverUrl: String): String {
-        return serverMap.getValue(serverUrl)
+    fun getServerKey(serverUrl: String): Optional<Server> {
+        return serverRepository.findById(serverUrl)
     }
 
     fun deleteServer(servers: List<String>) {
         servers.forEach {
-            serverMap.remove(it)
+            serverRepository.deleteById(it)
         }
     }
 
