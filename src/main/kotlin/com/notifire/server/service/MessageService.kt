@@ -1,8 +1,6 @@
 package com.notifire.server.service
 
 import com.notifire.server.model.Message
-import com.notifire.server.model.User
-import com.notifire.server.secure.EncryptDecrypt
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.configurationprocessor.json.JSONObject
 import org.springframework.http.HttpEntity
