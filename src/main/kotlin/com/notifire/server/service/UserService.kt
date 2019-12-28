@@ -14,8 +14,8 @@ class UserService {
     @Autowired
     lateinit var userRepository: UserRepository
 
-    fun getAllUsers(): MutableIterable<User> {
-        return userRepository.findAll()
+    fun getAllUsers(): List<User> {
+        return userRepository.findAll().toMutableList()
     }
 
     fun addUser(user: User) {

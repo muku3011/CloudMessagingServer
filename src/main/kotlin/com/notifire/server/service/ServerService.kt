@@ -14,8 +14,8 @@ class ServerService {
     @Autowired
     lateinit var serverRepository: ServerRepository
 
-    fun getAllServers(): MutableIterable<Server> {
-        return serverRepository.findAll()
+    fun getAllServers(): List<Server> {
+        return serverRepository.findAll().toMutableList()
     }
 
     fun addServer(server: Server) {

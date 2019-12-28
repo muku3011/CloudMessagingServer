@@ -8,10 +8,10 @@ import org.junit.Test
 
 class EncryptDecryptTest {
 
-    var encryptDecrypt: EncryptDecrypt = EncryptDecrypt()
+    private var encryptDecrypt: EncryptDecrypt = EncryptDecrypt()
 
     @Before
-     fun initMocks() {
+    fun initMocks() {
         val key = Key("Bar12345Bar12345", "RandomInitVector", "TestKey")
         encryptDecrypt.keyService = KeyService()
         encryptDecrypt.keyService.addKey(key)

@@ -15,7 +15,7 @@ class UserController (val userService: UserService) {
 
     @RequestMapping("/user", method = [RequestMethod.GET])
     @ApiOperation(value = "Get all users", notes = "Get list of all users")
-    fun getAllUser() : MutableIterable<User> {
+    fun getAllUser() : List<User> {
         return userService.getAllUsers()
     }
 
@@ -25,7 +25,7 @@ class UserController (val userService: UserService) {
         return userService.addUser(user)
     }
 
-    @RequestMapping("/user/delete", method = [RequestMethod.DELETE])
+    @RequestMapping("/user", method = [RequestMethod.DELETE])
     @ApiOperation(value = "Delete user", notes = "Delete a user")
     fun deleteServer(@RequestBody users: List<String>) {
         return userService.deleteUser(users)

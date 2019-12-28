@@ -16,7 +16,7 @@ class ServerController (var serverService: ServerService) {
 
     @RequestMapping("/server", method = [RequestMethod.GET])
     @ApiOperation(value = "Get all servers", notes = "Get list of all server")
-    fun getAllServer() : MutableIterable<Server> {
+    fun getAllServer() : List<Server> {
         return serverService.getAllServers()
     }
 
@@ -26,7 +26,7 @@ class ServerController (var serverService: ServerService) {
         return serverService.addServer(server)
     }
 
-    @RequestMapping("/server/delete", method = [RequestMethod.DELETE])
+    @RequestMapping("/server", method = [RequestMethod.DELETE])
     @ApiOperation(value = "Delete server", notes = "Delete a server")
     fun deleteServer(@RequestBody servers: List<String>) {
         return serverService.deleteServer(servers)
