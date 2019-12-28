@@ -11,7 +11,7 @@ Application is hosted at:
 
 * Api documentation available at HOST:PORT/swagger-ui.html 
 
-Steps to user this application:
+Steps to use this application:
 
 1. Create Key:
     * URL: http://localhost:8080/key
