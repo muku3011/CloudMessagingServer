@@ -18,6 +18,7 @@
     <properties>
         <java.version>1.8</java.version>
         <kotlin.version>1.4.10</kotlin.version>
+        <cloud-messaging-ui-version>1.0.0-SNAPSHOT</cloud-messaging-ui-version>
         <springfox-swagger-version>3.0.0</springfox-swagger-version>
     </properties>
 
@@ -64,6 +65,11 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cloud.messaging</groupId>
+            <artifactId>cloud-messaging-ui</artifactId>
+            <version>${cloud-messaging-ui-version}</version>
         </dependency>
     </dependencies>
 
