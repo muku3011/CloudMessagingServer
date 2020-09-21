@@ -1,6 +1,6 @@
 ### Backed for Google cloud message application
 
-Application is hosted at:
+Application hosted at:
 * [https://cloud-messaging-server.herokuapp.com][Backend]
 * [https://cloud-messaging-ui.herokuapp.com][Frontend] 
 * [https://github.com/muku3011/CloudMessagingUi][Git link for UI]
@@ -9,7 +9,7 @@ Application is hosted at:
 * H2 console can be accessed at: HOST:PORT/h2-console/
 * Database url: jdbc:h2:mem:mydb
 
-* Api documentation available at HOST:PORT/swagger-ui.html 
+* Api documentation available at HOST:PORT/swagger-ui/
 
 Steps to use this application:
 

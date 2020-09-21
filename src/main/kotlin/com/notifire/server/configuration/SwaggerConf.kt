@@ -1,22 +1,19 @@
 package com.notifire.server.configuration
 
-import com.google.common.base.Predicates
-import com.google.common.collect.Lists.newArrayList
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.http.HttpMethod
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
-import springfox.documentation.builders.ResponseMessageBuilder
-import springfox.documentation.schema.ModelRef
+import springfox.documentation.builders.ResponseBuilder
+import springfox.documentation.service.ApiInfo
+import springfox.documentation.service.Contact
+import springfox.documentation.service.Response
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
-import springfox.documentation.service.ApiInfo
-import springfox.documentation.service.Contact
-import springfox.documentation.service.ResponseMessage
 import java.util.Collections.emptyList
-
+import java.util.function.Predicate
 
 @Configuration
 @EnableSwagger2
@@ -45,7 +42,7 @@ class SwaggerConf {
             .apis(RequestHandlerSelectors.basePackage("com.notifire.server"))
 
             // Filter api based on PathSelectors with regular expressions
-            .paths(Predicates.not(PathSelectors.regex("/error.*")))
+            .paths(Predicate.not(PathSelectors.regex("/error.*")))
             //.paths(PathSelectors.regex("(?!/error.*).*"))
             //.paths(PathSelectors.ant("/foos/*"))
 
@@ -56,10 +53,10 @@ class SwaggerConf {
 
             //Custom Methods Response Messages
             .useDefaultResponseMessages(false)
-            .globalResponseMessage(RequestMethod.GET, customResponse())
-            .globalResponseMessage(RequestMethod.POST, customResponse())
-            .globalResponseMessage(RequestMethod.DELETE, customResponse())
-            .globalResponseMessage(RequestMethod.PUT, customResponse())
+            .globalResponses(HttpMethod.GET, customResponse())
+            .globalResponses(HttpMethod.POST, customResponse())
+            .globalResponses(HttpMethod.DELETE, customResponse())
+            .globalResponses(HttpMethod.PUT, customResponse())
 
     private fun apiInfo(): ApiInfo {
 
@@ -72,16 +69,15 @@ class SwaggerConf {
                 API_LICENSE, API_LICENSE_URL, emptyList())
     }
 
-    private fun customResponse(): List<ResponseMessage> {
-        return newArrayList(
-                ResponseMessageBuilder()
-                        .code(500)
-                        .message("Server internal error")
-                        .responseModel(ModelRef("string"))
+    private fun customResponse(): List<Response> {
+        return listOf(
+                ResponseBuilder()
+                        .code("500")
+                        .description("Server internal error")
                         .build(),
-                ResponseMessageBuilder()
-                        .code(403)
-                        .message("Forbidden!")
+                ResponseBuilder()
+                        .code("403")
+                        .description("Forbidden!")
                         .build())
     }
 }
