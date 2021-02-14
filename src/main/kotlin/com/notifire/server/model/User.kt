@@ -1,8 +1,6 @@
 package com.notifire.server.model
 
-import com.notifire.server.secure.EncryptDecrypt
 import io.swagger.annotations.ApiModelProperty
-import javax.persistence.Convert
 import javax.persistence.Entity
 import javax.persistence.Id
 
@@ -14,6 +12,6 @@ data class User(
         val userName: String,
 
         @ApiModelProperty(position = 2, required = true, value = "User token (secure)", example = "")
-        @Convert(converter = EncryptDecrypt::class)
+        //@Convert(converter = EncryptDecrypt::class)
         val userToken: String
 )
