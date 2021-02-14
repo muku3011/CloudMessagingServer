@@ -26,6 +26,14 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>GitHub muku Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/muku3011/cloud-messaging-ui</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
