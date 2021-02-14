@@ -1,19 +1,20 @@
-### Backed for Google cloud message application
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-orange.svg)](https://sonarcloud.io/dashboard?id=muku3011_cloud-messaging-server)
 
-Application hosted at:
-* [https://cloud-messaging-server.herokuapp.com][Backend]
-* [https://cloud-messaging-ui.herokuapp.com][Frontend] 
-* [https://github.com/muku3011/CloudMessagingUi][Git link for UI]
-* [https://github.com/muku3011/CloudMessagingApp][Git link for Android App]
+# Backed for Google cloud message application
 
-* H2 console can be accessed at: HOST:PORT/h2-console/
-* Database url: jdbc:h2:mem:mydb
+## Source code:
+* [Git link for BE](https://github.com/muku3011/cloud-messaging-server)
+* [Git link for UI](https://github.com/muku3011/cloud-messaging-ui)
+* [Git link for Android App](https://github.com/muku3011/cloud-messaging-app)
 
-* Api documentation available at HOST:PORT/swagger-ui/
+## Other info:
+* H2 console can be accessed at: `<HOST>:<PORT>/h2-console/`
+* Database url: `jdbc:h2:mem:mydb`
+* Api documentation: `<HOST>:<PORT>/swagger-ui/`
 
-Steps to use this application:
+## Steps to use this application:
 
-1. Create Key:
+1. ~~Create Key~~ (removed for now) :
     * URL: http://localhost:8080/key
     * Request: POST
     * Body: 
@@ -55,16 +56,3 @@ Steps to use this application:
             "title": "First message title",
             "body": "First message body"
         }
-     
-
-[Backend]: https://cloud-messaging-server.herokuapp.com
-
-[Angular]: https://cloud-messaging-ui.herokuapp.com
-
-[Backend]: https://cloud-messaging-server.herokuapp.com
-
-[Frontend]: https://cloud-messaging-ui.herokuapp.com
-
-[Git link for UI]: https://github.com/muku3011/CloudMessagingUi
-
-[Git link for Android App]: https://github.com/muku3011/CloudMessagingApp

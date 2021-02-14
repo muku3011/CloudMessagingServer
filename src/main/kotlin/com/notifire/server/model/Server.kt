@@ -1,9 +1,7 @@
 package com.notifire.server.model
 
-import com.notifire.server.secure.EncryptDecrypt
 import io.swagger.annotations.ApiModelProperty
 import org.hibernate.validator.constraints.URL
-import javax.persistence.Convert
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.validation.constraints.NotBlank
@@ -20,6 +18,6 @@ data class Server(
         val serverUrl: String,
 
         @ApiModelProperty(position = 2, required = true, value = "Server key (secure)", example = "")
-        @Convert(converter = EncryptDecrypt::class)
+        //@Convert(converter = EncryptDecrypt::class)
         val serverKey: String
 )

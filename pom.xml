@@ -18,8 +18,21 @@
     <properties>
         <java.version>1.8</java.version>
         <kotlin.version>1.4.10</kotlin.version>
+        <cloud-messaging-ui-version>1.0.0-SNAPSHOT</cloud-messaging-ui-version>
         <springfox-swagger-version>3.0.0</springfox-swagger-version>
+
+        <sonar.projectKey>muku3011_cloud-messaging-app</sonar.projectKey>
+        <sonar.organization>github-sonar</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>GitHub muku Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/muku3011/cloud-messaging-ui</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -64,6 +77,11 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.cloud.messaging</groupId>
+            <artifactId>cloud-messaging-ui</artifactId>
+            <version>${cloud-messaging-ui-version}</version>
         </dependency>
     </dependencies>
 
