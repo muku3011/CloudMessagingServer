@@ -18,13 +18,7 @@ class EncryptDecrypt : AttributeConverter<String, String> {
 
     override fun convertToDatabaseColumn(/*key: String, initVector: String,*/ value: String): String? {
         try {
-            val key = keyService.getKey()!!.key
-            val initVector = keyService.getKey()!!.initialVector
-
-            val iv = IvParameterSpec(initVector.toByteArray(charset("UTF-8")))
-            val skeySpec = SecretKeySpec(key.toByteArray(charset("UTF-8")), "AES")
-
-            val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
+            val (iv, skeySpec, cipher) = commonPartForEncryptDecrypt()
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv)
 
             val encrypted = cipher.doFinal(value.toByteArray())
@@ -38,13 +32,7 @@ class EncryptDecrypt : AttributeConverter<String, String> {
 
     override fun convertToEntityAttribute(/*key: String, initVector: String,*/ encrypted: String): String? {
         try {
-            val key = keyService.getKey()!!.key
-            val initVector = keyService.getKey()!!.initialVector
-
-            val iv = IvParameterSpec(initVector.toByteArray(charset("UTF-8")))
-            val skeySpec = SecretKeySpec(key.toByteArray(charset("UTF-8")), "AES")
-
-            val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
+            val (iv, skeySpec, cipher) = commonPartForEncryptDecrypt()
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv)
 
             val original = cipher.doFinal(Base64.decodeBase64(encrypted))
@@ -56,4 +44,14 @@ class EncryptDecrypt : AttributeConverter<String, String> {
         return null
     }
 
+    private fun commonPartForEncryptDecrypt(): Triple<IvParameterSpec, SecretKeySpec, Cipher> {
+        val key = keyService.getKey()!!.key
+        val initVector = keyService.getKey()!!.initialVector
+
+        val iv = IvParameterSpec(initVector.toByteArray(charset("UTF-8")))
+        val skeySpec = SecretKeySpec(key.toByteArray(charset("UTF-8")), "AES")
+
+        val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
+        return Triple(iv, skeySpec, cipher)
+    }
 }

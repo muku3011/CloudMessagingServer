@@ -17,7 +17,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <kotlin.version>1.4.10</kotlin.version>
+        <kotlin.version>1.5.10</kotlin.version>
         <cloud-messaging-ui-version>1.0.0-SNAPSHOT</cloud-messaging-ui-version>
         <springfox-swagger-version>3.0.0</springfox-swagger-version>
         <google-firebase-admin-version>7.3.0</google-firebase-admin-version>
@@ -88,6 +88,17 @@
             <groupId>com.google.firebase</groupId>
             <artifactId>firebase-admin</artifactId>
             <version>${google-firebase-admin-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.microutils</groupId>
+            <artifactId>kotlin-logging-jvm</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
         </dependency>
     </dependencies>
 

@@ -10,7 +10,9 @@ import com.google.firebase.FirebaseOptions
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.Message
 import com.google.firebase.messaging.Notification
+import com.notifire.server.model.MessageResponse
 import com.notifire.server.model.UserMessage
+import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,6 +25,8 @@ class MessageService {
     @Autowired
     lateinit var userService: UserService
 
+    private val logger = KotlinLogging.logger {}
+
     @PostConstruct
     fun init() {
         val options = FirebaseOptions.builder()
@@ -32,9 +36,8 @@ class MessageService {
         FirebaseApp.initializeApp(options)
     }
 
-    fun sendMessage(userMessage: UserMessage): ResponseEntity<String> {
+    fun sendMessage(userMessage: UserMessage): ResponseEntity<MessageResponse> {
         val registrationToken = userService.getUserToken(userMessage.userName).get().userToken
-        println("Registration Token: $registrationToken")
 
         val message = Message.builder()
             .setToken(registrationToken)
@@ -47,26 +50,27 @@ class MessageService {
             .build()
 
         val response: ApiFuture<String> = FirebaseMessaging.getInstance().sendAsync(message)
-        println("Successfully sent message: $response")
 
-        var responseMessage = "Successfully sent message"
+        var responseMessage = MessageResponse("Message sent, Success!")
         var responseCode = HttpStatus.OK
 
-        ApiFutures.addCallback(response, object : ApiFutureCallback<String> {
-                override fun onFailure(t: Throwable) {
-                    responseMessage = "Message not sent, Failed!"
+        ApiFutures.addCallback(
+            response, object : ApiFutureCallback<String> {
+                override fun onFailure(throwable: Throwable) {
+                    responseMessage = MessageResponse("Message not sent, Failed!")
                     responseCode = HttpStatus.INTERNAL_SERVER_ERROR
-                    println("Error: $t")
+                    logger.error { "Error: $throwable"}
                 }
 
                 override fun onSuccess(messageId: String?) {
-                    println("Published changes to Pubsub")
+                    logger.info { "Message sent, Success!"}
                 }
             },
             MoreExecutors.directExecutor()
         )
         response.get()
-        return ResponseEntity<String>(responseMessage, responseCode)
+
+        return ResponseEntity<MessageResponse>(responseMessage, responseCode)
     }
 }
 

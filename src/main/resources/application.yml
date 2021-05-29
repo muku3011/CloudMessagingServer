@@ -1,3 +1,10 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+
 spring:
   application:
     name: CloudMessagingServer
@@ -24,9 +31,9 @@ spring:
       hibernate:
         format_sql: true
 
-logging:
-  level:
-    root: INFO
-
-server:
-  port: 8080
+application:
+  scheduler:
+    cron-regex: '0 * * * * *'
+    message:
+      title: 'Time to drink water'
+      body: "Time to drink water, it's needed for you. Stop your work and drink water"

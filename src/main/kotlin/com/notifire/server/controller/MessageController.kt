@@ -1,5 +1,6 @@
 package com.notifire.server.controller
 
+import com.notifire.server.model.MessageResponse
 import com.notifire.server.model.UserMessage
 import com.notifire.server.service.MessageService
 import io.swagger.annotations.Api
@@ -16,7 +17,7 @@ class MessageController (var messageService: MessageService) {
 
     @RequestMapping("/message", method = [RequestMethod.POST])
     @ApiOperation(value = "Send message", notes = "Send a message to requested user", tags = ["Message management"])
-    fun sendMessage(@RequestBody userMessage: UserMessage): ResponseEntity<String> {
+    fun sendMessage(@RequestBody userMessage: UserMessage): ResponseEntity<MessageResponse> {
         return messageService.sendMessage(userMessage)
     }
 }
