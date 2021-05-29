@@ -1,21 +1,21 @@
 package com.notifire.server.service
 
-import com.notifire.server.model.Message
+import com.google.api.core.ApiFuture
+import com.google.api.core.ApiFutureCallback
+import com.google.api.core.ApiFutures
+import com.google.auth.oauth2.GoogleCredentials
+import com.google.common.util.concurrent.MoreExecutors
+import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.Message
+import com.google.firebase.messaging.Notification
+import com.notifire.server.model.UserMessage
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.configurationprocessor.json.JSONObject
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.http.client.ClientHttpRequestExecution
-import org.springframework.http.client.ClientHttpRequestInterceptor
-import org.springframework.http.client.ClientHttpResponse
-import org.springframework.http.client.support.HttpRequestWrapper
-import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
-import org.springframework.web.client.RestTemplate
-import java.util.concurrent.CompletableFuture
-import kotlin.collections.ArrayList
+import javax.annotation.PostConstruct
 
 @Service
 class MessageService {
@@ -23,48 +23,50 @@ class MessageService {
     @Autowired
     lateinit var userService: UserService
 
-    @Autowired
-    lateinit var serverService: ServerService
+    @PostConstruct
+    fun init() {
+        val options = FirebaseOptions.builder()
+            .setCredentials(GoogleCredentials.getApplicationDefault())
+            .build()
 
-    fun sendMessage(message: Message): ResponseEntity<String> {
-        val body = JSONObject()
-        body.put("to", userService.getUserToken(message.userName))
-        body.put("priority", "high")
-
-        val notification = JSONObject()
-        notification.put("title", message.title)
-        notification.put("body", message.body)
-
-        body.put("notification", notification)
-
-        val response = HttpEntity(body.toString())
-        val pushNotification: CompletableFuture<String> = send(response, message.serverUrl)
-        CompletableFuture.allOf(pushNotification)
-
-        val firebaseResponse = pushNotification.get()
-        return ResponseEntity(firebaseResponse, HttpStatus.OK)
+        FirebaseApp.initializeApp(options)
     }
 
-    @Async
-    fun send(entity: HttpEntity<String>, serverUrl: String): CompletableFuture<String> {
-        val restTemplate = RestTemplate()
+    fun sendMessage(userMessage: UserMessage): ResponseEntity<String> {
+        val registrationToken = userService.getUserToken(userMessage.userName).get().userToken
+        println("Registration Token: $registrationToken")
 
-        val interceptor = ArrayList<ClientHttpRequestInterceptor>()
-        interceptor.add(HeaderRequestInterceptor("Authorization", "key=" + serverService.getServerKey(serverUrl)))
-        interceptor.add(HeaderRequestInterceptor("Content-Type", "application/json"))
-        restTemplate.interceptors = interceptor
+        val message = Message.builder()
+            .setToken(registrationToken)
+            .setNotification(
+                Notification.builder()
+                    .setTitle(userMessage.title)
+                    .setBody(userMessage.body)
+                    .build()
+            )
+            .build()
 
-        val firebaseResponse = restTemplate.postForObject(serverUrl, entity, String::class.java)
-        return CompletableFuture.completedFuture(firebaseResponse)
-    }
+        val response: ApiFuture<String> = FirebaseMessaging.getInstance().sendAsync(message)
+        println("Successfully sent message: $response")
 
-    private class HeaderRequestInterceptor(private var headerName: String, private var headerValue: String) : ClientHttpRequestInterceptor {
+        var responseMessage = "Successfully sent message"
+        var responseCode = HttpStatus.OK
 
-        override fun intercept(request: HttpRequest, body: ByteArray, execution: ClientHttpRequestExecution): ClientHttpResponse {
-            val wrapper = HttpRequestWrapper(request)
-            wrapper.headers.set(headerName, headerValue)
-            return execution.execute(wrapper, body)
-        }
+        ApiFutures.addCallback(response, object : ApiFutureCallback<String> {
+                override fun onFailure(t: Throwable) {
+                    responseMessage = "Message not sent, Failed!"
+                    responseCode = HttpStatus.INTERNAL_SERVER_ERROR
+                    println("Error: $t")
+                }
+
+                override fun onSuccess(messageId: String?) {
+                    println("Published changes to Pubsub")
+                }
+            },
+            MoreExecutors.directExecutor()
+        )
+        response.get()
+        return ResponseEntity<String>(responseMessage, responseCode)
     }
 }
 

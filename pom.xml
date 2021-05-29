@@ -20,6 +20,7 @@
         <kotlin.version>1.4.10</kotlin.version>
         <cloud-messaging-ui-version>1.0.0-SNAPSHOT</cloud-messaging-ui-version>
         <springfox-swagger-version>3.0.0</springfox-swagger-version>
+        <google-firebase-admin-version>7.3.0</google-firebase-admin-version>
 
         <sonar.projectKey>muku3011_cloud-messaging-app</sonar.projectKey>
         <sonar.organization>github-sonar</sonar.organization>
@@ -82,6 +83,11 @@
             <groupId>com.cloud.messaging</groupId>
             <artifactId>cloud-messaging-ui</artifactId>
             <version>${cloud-messaging-ui-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>${google-firebase-admin-version}</version>
         </dependency>
     </dependencies>
 
