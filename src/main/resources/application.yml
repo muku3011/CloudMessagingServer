@@ -33,7 +33,7 @@ spring:
 
 application:
   scheduler:
-    cron-regex: '0 0 8-22 ? * * *'
+    cron-regex: '0 0 8-22 ? * *'
     message:
       title: 'Time to drink water'
       body: "Time to drink water, it's needed for you. Stop your work and drink water"
